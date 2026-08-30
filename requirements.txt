@@ -1,0 +1,11 @@
+Flask
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+mysql-connector-python
+certifi
+opencv-python
+easyocr
+cloudinary
+pyspellchecker

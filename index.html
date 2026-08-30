@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LM·CS — Legal Metrology Compliance Scanner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+
+    <header class="masthead">
+      <div class="seal" aria-hidden="true">LM<span class="seal-dot">·</span>CS</div>
+      <div class="masthead-text">
+        <h1>Legal Metrology Compliance Scanner</h1>
+        <p class="eyebrow">Packaged Commodities Rules, 2011 — Automated Label Audit</p>
+      </div>
+      <label class="demo-toggle" title="Show sample results without calling the backend">
+        <input type="checkbox" id="demoModeToggle">
+        <span>Sample data mode</span>
+      </label>
+    </header>
+
+    <main class="console">
+
+      <!-- LEFT PANEL: image select / reset -->
+      <section class="panel scan-panel" aria-label="Label image input">
+        <h2 class="panel-title">01 — Label Image</h2>
+
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Select label image">
+          <span class="bracket bracket-tl"></span>
+          <span class="bracket bracket-tr"></span>
+          <span class="bracket bracket-bl"></span>
+          <span class="bracket bracket-br"></span>
+
+          <div id="dropzoneEmpty" class="dropzone-empty">
+            <svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true">
+              <rect x="4" y="10" width="40" height="30" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="24" cy="25" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+              <rect x="16" y="4" width="16" height="6" rx="1" fill="currentColor"/>
+            </svg>
+            <p>Drop a label photo here<br><span>or click to browse</span></p>
+          </div>
+
+          <img id="previewImage" class="preview-image" alt="Selected label preview" hidden>
+          <div id="scanSweep" class="scan-sweep" hidden></div>
+        </div>
+
+        <input type="file" id="fileInput" accept="image/*" hidden>
+
+        <p id="fileStatus" class="file-status">No file selected</p>
+
+        <div class="camera-tools">
+          <button id="cameraBtn" type="button" class="btn btn-outline">Use Camera</button>
+          <button id="captureBtn" type="button" class="btn btn-primary" hidden>Capture Frame</button>
+        </div>
+
+        <div id="cameraContainer" class="camera-container" hidden>
+          <video id="cameraPreview" autoplay playsinline muted></video>
+          <canvas id="cameraCanvas" hidden></canvas>
+        </div>
+
+        <div class="button-row">
+          <button id="selectBtn" type="button" class="btn btn-outline">Select Image</button>
+          <button id="scanBtn" type="button" class="btn btn-primary" disabled>Run Compliance Scan</button>
+          <button id="resetBtn" type="button" class="btn btn-ghost">Reset</button>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL: waiting state + report -->
+      <section class="panel report-panel" aria-label="Compliance report">
+        <h2 class="panel-title">02 — Audit Report</h2>
+
+        <div id="stateIdle" class="report-state">
+          <p class="idle-text">Select a label image and run the scan to generate a compliance report.</p>
+        </div>
+
+        <div id="stateLoading" class="report-state" hidden>
+          <div class="timer"><span id="timerValue">0.0</span>s</div>
+          <ol id="stepList" class="step-list"></ol>
+        </div>
+
+        <div id="stateError" class="report-state" hidden>
+          <p class="error-text" id="errorText"></p>
+          <button id="retryBtn" type="button" class="btn btn-outline">Retry</button>
+        </div>
+
+        <div id="stateResult" class="report-state" hidden>
+          <div class="stamp-row">
+            <div id="statusStamp" class="stamp">COMPLIANT</div>
+            <div class="score-block">
+              <span class="score-label">Compliance Score</span>
+              <span id="scoreValue" class="score-value">—</span>
+            </div>
+          </div>
+
+          <dl class="entities" id="entitiesList"></dl>
+
+          <div class="violations" id="violationsList"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="foot">
+      <p>Frontend module · SIH team build · calls <code>POST /api/scan</code></p>
+    </footer>
+  </div>
+
+  <script src="scriptONE.js"></script>
+</body>
+</html>
